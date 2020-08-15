@@ -17,6 +17,10 @@ downloadUrl = await Storage.vault.get('xx.jpg', { level: 'private' });
         const downloadUrl = await Storage.vault.get(file.key, { level: 'private' });
 ```
 
+- To control the amount of time the storage item is available, use "expires"
+```react
+    const downloadUrl = await Storage.get('picture.jpg', { expires: 300 });
+```
 *Here's the code
 ```react
 const App = () => {
