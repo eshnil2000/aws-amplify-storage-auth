@@ -5,8 +5,10 @@
 # Modified src/Home.js, added a new function called "App"
 - This function defines an upload and download button, connects to S3 storage
 - uses the word "private" so that only the logged in user can see/modify their files
+
 ```react
-downloadUrl = await Storage.vault.get('xx.jpg', { level: 'private' }); ```
+downloadUrl = await Storage.vault.get('xx.jpg', { level: 'private' }); 
+```
 
 - Need to use async when you have await
 ```react
