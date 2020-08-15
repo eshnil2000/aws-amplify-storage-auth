@@ -2,6 +2,19 @@
 
 # Added ability to upload pictures
 
+# Modified src/Home.js, added a new function called "App"
+- This function defines an upload and download button, connects to S3 storage
+- uses the word "private" so that only the logged in user can see/modify their files
+```react
+downloadUrl = await Storage.vault.get('xx.jpg', { level: 'private' }); ```
+
+- Need to use async when you have await
+```react
+        files.forEach(async (file) =>{
+        console.log(file.key)
+        const downloadUrl = await Storage.vault.get(file.key, { level: 'private' });
+```
+
 ```react
 const App = () => {
   const [imageUrl, setImageUrl] = useState(null);
@@ -56,6 +69,10 @@ const App = () => {
       </div>
     </div>
   );
+```
+
+# In the Home component, now add in the "App" element defined above
+```react
 class Home extends React.Component {
   static contextType = UserContext;
 
