@@ -2,7 +2,7 @@
 
 # Added ability to upload pictures
 
-# Modified src/Home.js, added a new function called "App"
+*Modified src/Home.js, added a new function called "App"
 - This function defines an upload and download button, connects to S3 storage
 - uses the word "private" so that only the logged in user can see/modify their files
 
@@ -17,6 +17,7 @@ downloadUrl = await Storage.vault.get('xx.jpg', { level: 'private' });
         const downloadUrl = await Storage.vault.get(file.key, { level: 'private' });
 ```
 
+*Here's the code
 ```react
 const App = () => {
   const [imageUrl, setImageUrl] = useState(null);
