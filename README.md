@@ -1,9 +1,105 @@
 ### This is the React Starter
 
-To view the Vue starter, click [here](https://github.com/aws-samples/aws-amplify-auth-starters/tree/vue).
+# Added ability to upload pictures
 
-To view the React Native starter, click [here](https://github.com/aws-samples/aws-amplify-auth-starters/tree/react-native).
+*Modified src/Home.js, added a new function called "App"
+- This function defines an upload and download button, connects to S3 storage
+- uses the word "private" so that only the logged in user can see/modify their files
 
+```react
+downloadUrl = await Storage.vault.get('xx.jpg', { level: 'private' }); 
+```
+
+- Need to use async when you have await
+```react
+        files.forEach(async (file) =>{
+        console.log(file.key)
+        const downloadUrl = await Storage.vault.get(file.key, { level: 'private' });
+```
+
+- To control the amount of time the storage item is available, use "expires"
+```react
+    const downloadUrl = await Storage.get('picture.jpg', { expires: 300 });
+```
+*Here's the code
+```react
+const App = () => {
+  const [imageUrl, setImageUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const downloadUrl = async () => {
+    // Creates download url that expires in 5 minutes/ 300 seconds
+    const downloadUrl = await Storage.vault.get('xx.jpg', { level: 'private' });
+    const files = await Storage.vault.list('');
+    files.forEach(async (file) =>{
+        console.log(file.key)
+        const downloadUrl = await Storage.vault.get(file.key, { level: 'private' });
+        console.log(downloadUrl);
+        });
+    //console.log('files: ', files);
+    //console.log(downloadUrl);
+    //window.location.href = downloadUrl;
+  }
+
+  const handleChange = async (e) => {
+    const file = e.target.files[0];
+    console.log(file.name);
+    try {
+      setLoading(true);
+      // Upload the file to s3 with private access level.
+      await Storage.put(file.name, file, {
+        level: 'private',
+        contentType: 'image/jpg'
+      });
+      // Retrieve the uploaded file to display
+      const url = await Storage.get(file.name, { level: 'private' })
+      setImageUrl(url);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  return (
+    <div className="App">
+      <h1> Upload an Image </h1>
+      {loading ? <h3>Uploading...</h3> : <input
+        type="file" accept='image/jpg'
+        onChange={(evt) => handleChange(evt)}
+      />}
+      <div>
+        {imageUrl ? <img style={{ width: "30rem" }} src={imageUrl} alt="no pic" /> : <span />}
+      </div>
+      <div>
+        <h2>Download URL?</h2>
+        <button onClick={() => downloadUrl()}>Click Here!</button>
+      </div>
+    </div>
+  );
+```
+
+# In the Home component, now add in the "App" element defined above
+```react
+class Home extends React.Component {
+  static contextType = UserContext;
+
+  render() {
+    const isAuthenticated = this.context.user && this.context.user.username ? true : false
+    return (
+      <Container>
+        <h1>Welcome</h1>
+        {
+          isAuthenticated && (
+            <>
+                <App />
+            </>
+          )
+        }
+      </Container>
+    )
+  }
+}
+```
 # AWS Amplify React Authentication Starter
 
 ![](hero.png)
