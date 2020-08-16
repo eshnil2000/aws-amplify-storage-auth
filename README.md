@@ -166,6 +166,9 @@ If you do not have your AWS services already created, follow these steps. If you
 1. From the root of the project, initialize the Amplify project    
 
 ```sh
+amplify configure
+```
+```sh
 amplify init
 ```
 
