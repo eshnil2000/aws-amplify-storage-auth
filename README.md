@@ -171,6 +171,14 @@ amplify configure
 ```sh
 amplify init
 ```
+- Create cognito pool and cognito identity in the aws console
+
+```sh
+amplify add auth
+```
+```sh
+amplify add storage
+```
 
 2. Create the resources in your account
 
