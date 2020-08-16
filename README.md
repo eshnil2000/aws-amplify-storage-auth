@@ -115,6 +115,18 @@ class Home extends React.Component {
 
 ## Getting started    
 
+-  ~/.aws/config 
+```
+[profile amplify-app]
+region=us-west-2
+```
+
+-  ~/.aws/credentials
+```
+[amplify-app]
+aws_access_key_id=xxxx
+aws_secret_access_key=xxxx
+```
 #### Initial setup
 
 1. Make sure you are on a new version of the AWS Amplify CLI to be sure you have multiple environment support.
